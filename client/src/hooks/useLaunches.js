@@ -34,37 +34,37 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
       target,
     });
 
-    const success = response.ok;
-    if (success) {
-      getLaunches();
-      setTimeout(() => {
-        setPendingLaunch(false);
-        onSuccessSound();
-      }, 800);
-    } else {
-      onFailureSound();
-    }
-  }, [getLaunches, onSuccessSound, onFailureSound]);
+  const success = response.ok;
+  if (success) {
+    getLaunches();
+    setTimeout(() => {
+      setPendingLaunch(false);
+      onSuccessSound();
+    }, 800);
+  } else {
+    onFailureSound();
+  }
+}, [getLaunches, onSuccessSound, onFailureSound]);
 
-  const abortLaunch = useCallback(async (id) => {
-    const response = await httpAbortLaunch(id);
+const abortLaunch = useCallback(async (id) => {
+  const response = await httpAbortLaunch(id);
 
-    // TODO: Set success based on response.
-    const success = response.ok;
-    if (success) {
-      getLaunches();
-      onAbortSound();
-    } else {
-      onFailureSound();
-    }
-  }, [getLaunches, onAbortSound, onFailureSound]);
+  // TODO: Set success based on response.
+  const success = response.ok;
+  if (success) {
+    getLaunches();
+    onAbortSound();
+  } else {
+    onFailureSound();
+  }
+}, [getLaunches, onAbortSound, onFailureSound]);
 
-  return {
-    launches,
-    isPendingLaunch,
-    submitLaunch,
-    abortLaunch,
-  };
+return {
+  launches,
+  isPendingLaunch,
+  submitLaunch,
+  abortLaunch,
+};
 }
 
 export default useLaunches;
